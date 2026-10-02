@@ -7,7 +7,7 @@ authors = [
     { name = "Kellen Galban", email = "kellengalban751@berkeley.edu" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = ["pygame>=2.6.1,<3"]
 
 [project.scripts]
 asterboids = "asterboids:main"

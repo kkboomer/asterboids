@@ -12,12 +12,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        
-        screen.fill((0, 0, 0))  # Fill the screen with black
-        pygame.display.flip()
-        
-
+        screen.fill("dodgerblue")  #
         sky.update()
-        # Update the display
+        pygame.display.flip()
     
     pygame.quit()
