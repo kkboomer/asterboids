@@ -7,7 +7,7 @@ class Sky:
         self.boid_num = boid_num
         self.boids = []
         self.predatorNum = 4
-        self.predators = []
+        #self.predators = []
         self.BOUNCE_OFF_WALLS = True
         self.WRAP_AROUND = False
         for i in range(boid_num):
@@ -18,7 +18,7 @@ class Sky:
                 random.uniform(-1, 1), False
                 ))
         for i in range(self.predatorNum):
-            self.predators.append(Boid(
+            self.boids.append(Boid(
                 random.uniform(0, width), 
                 random.uniform(0, height), 
                 random.uniform(-1, 1), 
@@ -26,7 +26,7 @@ class Sky:
                 ))
     
     def update(self):
-        for b, p in zip(self.boids, self.predators):
+        for b in (self.boids):
             flockXVel, flockYVel = self.flock(b, 50, .0003)
             alignXVel, alignYVel = self.align(b, 50, .01)
             avoidXVel, avoidYVel = self.avoid(b, 50, .0003)
@@ -68,9 +68,11 @@ class Sky:
             closenessX += (boid.x - n.x) * closeness
             closenessY += (boid.y - n.y) * closeness
         return (closenessX) *power, (closenessY) * power
+    
     def predator(self, boid, distance, power):
         closenessX, closenessY = 0, 0
-        for p in self.predators:
+        predators = [b for b in self.boids if b.isPreadator]
+        for p in predators:
             dist = boid.getDistance(p)
             if dist < distance:
                 closeness = distance - dist
