@@ -1,13 +1,13 @@
 import random
 from asterboids.boid import Boid
 class Sky:
-    def __init__(self,width, height, boid_num):
+    def __init__(self,width, height, boid_num, player):
+        self.player = player
         self.width = width
         self.height = height
         self.boid_num = boid_num
         self.boids = []
         self.predatorNum = 4
-        #self.predators = []
         self.BOUNCE_OFF_WALLS = True
         self.WRAP_AROUND = False
         for i in range(boid_num):
@@ -37,6 +37,8 @@ class Sky:
                 b.bounceOffWalls(self.width, self.height)
             elif self.WRAP_AROUND:
                 b.wrapAround(self.width, self.height)
+        predators = [b for b in self.boids if b.isPreadator]
+        
     
     ## we apply the logic for the rules here
     # rule 1: steer twrd  center of nearby boids
@@ -72,6 +74,8 @@ class Sky:
     def predator(self, boid, distance, power):
         closenessX, closenessY = 0, 0
         predators = [b for b in self.boids if b.isPreadator]
+        if not predators:
+            return 0, 0
         for p in predators:
             dist = boid.getDistance(p)
             if dist < distance:

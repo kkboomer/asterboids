@@ -15,7 +15,7 @@ class Boid:
         self.draw(pygame.display.get_surface())
         return
     def getDistance(self, boid):
-        return ((self.x-boid.x)**2 +(self.y-boid.y)**2)**.5
+        return ((self.x-boid.x)**2 + (self.y-boid.y)**2)**.5
     
     def getLocation(self):
         return (self.x, self.y)    
@@ -39,7 +39,6 @@ class Boid:
         self.x += self.xvel
         self.y += self.yvel
         self.draw(pygame.display.get_surface())
-        #max vel check
         
     def getVelocity(self):
         return (self.xvel**2 + self.yvel**2)**.5
@@ -60,7 +59,7 @@ class Boid:
             color = (255, 255, 255)
         pygame.draw.polygon(screen, color, rotated_pts)
     def bounceOffWalls(self, width, height):
-        pad, turn = 50, .5
+        pad, turn = 30, .2
         # pad is the how close the boid can get to the border of the screen
         # turn is what we either add or subrtact form the velocity to help the boid avoid the edge
         if self.x < pad:
