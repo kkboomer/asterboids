@@ -1,4 +1,6 @@
 import pygame, math
+
+from asterboids.projectile import Projectile
 class Player:
     FRICTION = .99
     def __init__(self, x, y, xvel, yvel):
@@ -7,6 +9,8 @@ class Player:
         self.xvel = xvel
         self.yvel = yvel
         self.angle = 0.0
+        self.cooldown = 0
+        self.projectiles = []
     # the player will be able to fire a projectile, if it hits a boid, it gets deleted
     def update(self, maxvel = 5):
         keys = pygame.key.get_pressed()
@@ -19,6 +23,10 @@ class Player:
             accelY = math.sin(self.angle) * 0.1
             self.xvel += accelX
             self.yvel += accelY
+        if keys[pygame.K_SPACE] and self.cooldown == 0:
+                self.fire()
+                self.cooldown = 10
+        
         # self.move()
         self.xvel *= self.FRICTION
         self.yvel *= self.FRICTION
@@ -32,6 +40,8 @@ class Player:
         self.x = self.x % width
         self.y = self.y % height
         self.draw(pygame.display.get_surface())
+        if self.cooldown > 0:
+            self.cooldown -= 1
     
     def draw(self, screen):
         # self.angle = math.atan2(self.yvel, self.xvel)    
@@ -43,3 +53,6 @@ class Player:
             rotated_pts.append((x + self.x, y + self.y))   
         color = "lightsalmon"   
         pygame.draw.polygon(screen, color, rotated_pts)
+    def fire(self):
+        p = Projectile(self.x, self.y, math.cos(self.angle), math.sin(self.angle))
+        self.projectiles.append(p)

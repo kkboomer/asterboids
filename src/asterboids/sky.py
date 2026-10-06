@@ -10,6 +10,7 @@ class Sky:
         self.predatorNum = 4
         self.BOUNCE_OFF_WALLS = True
         self.WRAP_AROUND = False
+        self.projectiles = self.player.projectiles
         for i in range(boid_num):
             self.boids.append(Boid(
                 random.uniform(0, width), 
@@ -26,18 +27,37 @@ class Sky:
                 ))
     
     def update(self):
+        dead_boids =[]
+        dead_projectiles = []
         for b in (self.boids):
             flockXVel, flockYVel = self.flock(b, 50, .0003)
             alignXVel, alignYVel = self.align(b, 50, .01)
             avoidXVel, avoidYVel = self.avoid(b, 50, .0003)
             predXVel, predYVel = self.predator(b, 150, .0005)
             b.update([flockXVel+alignXVel+avoidXVel+predXVel, flockYVel+alignYVel+avoidYVel+predYVel])
+            for p in self.projectiles:
+                if p.getDistance(b) < 10:
+                    if b not in dead_boids: dead_boids.append(b)
+                    if p not in dead_projectiles: dead_projectiles.append(p)
+                    break
             #either wrap around or bounce off the walls, we decide later
             if self.BOUNCE_OFF_WALLS:
                 b.bounceOffWalls(self.width, self.height)
             elif self.WRAP_AROUND:
                 b.wrapAround(self.width, self.height)
-        predators = [b for b in self.boids if b.isPreadator]
+                
+        for proj in self.projectiles:
+            proj.update()
+            if proj.lifespan <= 0 or proj not in dead_projectiles:
+                dead_projectiles.append(proj)
+        
+        for b in dead_boids:
+            if b in self.boids:
+                self.boids.remove(b)
+          
+        for p in dead_projectiles:
+            if b in self.projectiles:
+                self.projectiles.remove(b)
         
     
     ## we apply the logic for the rules here

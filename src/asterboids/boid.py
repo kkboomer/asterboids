@@ -7,6 +7,7 @@ class Boid:
         self.yvel = yvel
         self.isPreadator = isPreadator
         self.draw(pygame.display.get_surface())
+        self.alive = True
     def update(self, newVel):
         self.xvel += newVel[0]
         self.yvel += newVel[1]
