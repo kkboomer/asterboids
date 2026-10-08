@@ -48,18 +48,18 @@ class Sky:
                 
         for proj in self.projectiles:
             proj.update()
-            if proj.lifespan <= 0 or proj not in dead_projectiles:
+            if proj.lifespan <= 0 and proj not in dead_projectiles:
                 dead_projectiles.append(proj)
         
         for b in dead_boids:
             if b in self.boids:
                 self.boids.remove(b)
-          
         for p in dead_projectiles:
-            if b in self.projectiles:
-                self.projectiles.remove(b)
-        
-    
+            if p in self.projectiles:
+                self.projectiles.remove(p)
+        if not self.boids:
+            #gotta do smth otherwise it crashes
+            return 0
     ## we apply the logic for the rules here
     # rule 1: steer twrd  center of nearby boids
     def flock(self, boid, distance, power):

@@ -25,7 +25,7 @@ class Player:
             self.yvel += accelY
         if keys[pygame.K_SPACE] and self.cooldown == 0:
                 self.fire()
-                self.cooldown = 10
+                self.cooldown = 30
         
         # self.move()
         self.xvel *= self.FRICTION

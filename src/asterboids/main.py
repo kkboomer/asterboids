@@ -1,6 +1,5 @@
 import pygame
 from asterboids.sky import Sky
-from asterboids.boid import Boid
 from asterboids.player import Player
 def main():
     pygame.init()
@@ -9,6 +8,7 @@ def main():
     
     running = True
     sky = Sky(800, 600, 100, Player(400, 300, 0, 0))
+    clock = pygame.time.Clock()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -17,5 +17,6 @@ def main():
         sky.player.update()
         sky.update()
         pygame.display.flip()
+        clock.tick(120)
     
     pygame.quit()

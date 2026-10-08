@@ -5,7 +5,7 @@ class Projectile:
         self.y = y
         self.xvel = xvel
         self.yvel = yvel
-        self.lifespan = 120
+        self.lifespan = 600
 
     def update(self, maxvel = 5):
         vel = (self.xvel**2 + self.yvel**2)**.5
